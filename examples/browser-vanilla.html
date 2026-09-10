@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trustless Work — browser example</title>
+  </head>
+  <body>
+    <h1>Trustless Work escrow-js</h1>
+    <pre id="output">Loading…</pre>
+    <script type="module">
+      import {
+        TrustlessWorkClient,
+        development,
+      } from "https://esm.sh/@trustless-work/escrow-js@beta";
+
+      const client = new TrustlessWorkClient({
+        baseURL: development,
+        apiKey: "YOUR_API_KEY",
+      });
+
+      try {
+        const page = await client.rest.listEscrows({ scope: "mine", limit: 5 });
+        document.getElementById("output").textContent = JSON.stringify(page, null, 2);
+      } catch (error) {
+        document.getElementById("output").textContent = String(error);
+      }
+    </script>
+  </body>
+</html>
