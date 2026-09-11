@@ -1,0 +1,70 @@
+{
+  "package": "@trustless-work/escrow-js",
+  "docsPathPrefix": "/escrow-js-sdk",
+  "spaceHint": "English v2 space T9oAW5k4YIU200ZnbO0x — insert ESCROW JS SDK as sibling of ESCROW REACT SDK",
+  "reactSpaceId": "T9oAW5k4YIU200ZnbO0x",
+  "tree": [
+    { "file": "introduction.md", "title": "Introduction", "slug": "introduction", "parent": "root" },
+    { "file": "getting-started.md", "title": "Getting Started", "slug": "getting-started", "parent": "root" },
+    { "file": "architecture.md", "title": "Architecture", "slug": "architecture", "parent": "root" },
+    { "file": "send-transaction.md", "title": "sendTransaction", "slug": "sendtransaction", "parent": "root" },
+    {
+      "file": "operate.md",
+      "title": "Operate",
+      "slug": "operate",
+      "parent": "root",
+      "children": [
+        { "file": "deploy-escrow.md", "title": "deployEscrow", "slug": "deployescrow" },
+        { "file": "fund-escrow.md", "title": "fundEscrow", "slug": "fundescrow" },
+        { "file": "update-escrow.md", "title": "updateEscrow", "slug": "updateescrow" },
+        { "file": "change-milestone-status.md", "title": "changeMilestoneStatus", "slug": "changemilestonestatus" },
+        { "file": "approve-milestones.md", "title": "approveMilestones", "slug": "approvemilestones" },
+        { "file": "approve-and-release-milestones.md", "title": "approveAndReleaseMilestones", "slug": "approveandreleasemilestones" },
+        { "file": "manage-milestones.md", "title": "manageMilestones", "slug": "managemilestones" },
+        { "file": "release-funds.md", "title": "releaseFunds", "slug": "releasefunds" },
+        { "file": "start-dispute.md", "title": "startDispute", "slug": "startdispute" },
+        { "file": "resolve-dispute.md", "title": "resolveDispute", "slug": "resolvedispute" },
+        { "file": "withdraw-remaining-funds.md", "title": "withdrawRemainingFunds", "slug": "withdrawremainingfunds" }
+      ]
+    },
+    {
+      "file": "rest-reads.md",
+      "title": "REST Reads",
+      "slug": "rest-reads",
+      "parent": "root",
+      "children": [
+        { "file": "list-escrows.md", "title": "listEscrows", "slug": "listescrows" },
+        { "file": "get-escrow.md", "title": "getEscrow", "slug": "getescrow" },
+        { "file": "get-escrow-details.md", "title": "getEscrowDetails", "slug": "getescrowdetails" },
+        { "file": "list-escrow-events.md", "title": "listEscrowEvents", "slug": "listescrowevents" },
+        { "file": "get-escrow-milestones.md", "title": "getEscrowMilestones", "slug": "getescrowmilestones" },
+        { "file": "get-escrows-milestones.md", "title": "getEscrowsMilestones", "slug": "getescrowsmilestones" },
+        { "file": "get-escrows-financial.md", "title": "getEscrowsFinancial", "slug": "getescrowsfinancial" }
+      ]
+    },
+    {
+      "file": "graphql.md",
+      "title": "GraphQL",
+      "slug": "graphql",
+      "parent": "root",
+      "children": [
+        { "file": "graphql-get-escrow.md", "title": "getEscrow", "slug": "getescrow" },
+        { "file": "graphql-list-escrows.md", "title": "listEscrows", "slug": "listescrows" }
+      ]
+    },
+    {
+      "file": "types.md",
+      "title": "Types",
+      "slug": "types",
+      "parent": "root",
+      "children": [
+        { "file": "types-entities.md", "title": "Entities", "slug": "entities" },
+        { "file": "types-payloads.md", "title": "Payloads", "slug": "payloads" },
+        { "file": "types-reads.md", "title": "Reads & responses", "slug": "reads-and-responses" }
+      ]
+    },
+    { "file": "errors.md", "title": "Errors", "slug": "errors", "parent": "root" },
+    { "file": "runtimes.md", "title": "Runtimes", "slug": "runtimes", "parent": "root" },
+    { "file": "migration.md", "title": "Migration", "slug": "migration", "parent": "root" }
+  ]
+}
