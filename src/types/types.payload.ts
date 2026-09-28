@@ -206,12 +206,13 @@ export type MultiReleaseReleaseFundsPayload =
 
 /**
  * Query params for `GET /escrows`.
- * Note: the filter is still named `contractType`; response field is `type`.
+ * `type` filters by contract flavor and matches the response field `type`.
  */
 export type ListEscrowsParams = {
   scope?: "mine" | "all";
   status?: EscrowStatus;
-  contractType?: EscrowType;
+  /** `"single-release"` or `"multi-release"`. Sent as `?type=`. */
+  type?: EscrowType;
   engagementId?: string;
   contractIds?: string[];
   participant?: string;

@@ -179,7 +179,7 @@ type MultiReleaseEscrow = {
 ```
 
 {% hint style="info" %}
-There is **no escrow-level `amount`**. Total value is the sum of milestone `amount`s.
+This on-chain entity has no top-level `amount`. Total value is the sum of milestone `amount`s. The read-model row exposes that sum as `EscrowSummary.amount` (decimal string, or `null` until the first projection).
 {% endhint %}
 {% endtab %}
 {% endtabs %}

@@ -1,5 +1,9 @@
 import { TrustlessWorkClient } from "../src/client";
-import { GraphqlRequestError } from "../src/services/graphql";
+import {
+  GRAPHQL_GET_ESCROW,
+  GRAPHQL_LIST_ESCROWS,
+  GraphqlRequestError,
+} from "../src/services/graphql";
 
 function createMockFetch(
   handler: (url: string, init?: RequestInit) => Promise<Response>,
@@ -86,6 +90,26 @@ describe("EscrowRestService", () => {
     expect(urls[0]).toContain("/escrow/single-release/v2/dispute");
     expect(urls[1]).toContain("/escrow/multi-release/v2/dispute-milestones");
   });
+
+  it("filters GET /escrows by type, not contractType", async () => {
+    let capturedUrl = "";
+
+    const client = new TrustlessWorkClient({
+      baseURL: "https://api.example.com",
+      fetch: createMockFetch(async (url) => {
+        capturedUrl = url;
+        return new Response(
+          JSON.stringify({ data: [], hasMore: false, nextCursor: null }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }),
+    });
+
+    await client.rest.listEscrows({ type: "multi-release", limit: 5 });
+
+    expect(capturedUrl).toContain("type=multi-release");
+    expect(capturedUrl).not.toContain("contractType");
+  });
 });
 
 describe("EscrowGraphqlService", () => {
@@ -131,7 +155,7 @@ describe("EscrowGraphqlService", () => {
                     totalDeposited: "10",
                     totalReleased: "0",
                     platformFee: null,
-                    totalAmount: null,
+                    amount: null,
                     nextRelease: null,
                   },
                 },
@@ -144,5 +168,31 @@ describe("EscrowGraphqlService", () => {
 
     const escrow = await client.graphql.getEscrow({ contractId: "C123" });
     expect(escrow.contractId).toBe("C123");
+  });
+
+  it("selects amount and filters escrows by type", async () => {
+    let capturedBody = "";
+
+    const client = new TrustlessWorkClient({
+      baseURL: "https://api.example.com",
+      fetch: createMockFetch(async (_url, init) => {
+        capturedBody = String(init?.body ?? "");
+        return new Response(
+          JSON.stringify({
+            data: { escrows: { data: [], hasMore: false, nextCursor: null } },
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }),
+    });
+
+    await client.graphql.listEscrows({ type: "single-release", limit: 5 });
+
+    expect(GRAPHQL_LIST_ESCROWS).toContain("amount");
+    expect(GRAPHQL_LIST_ESCROWS).not.toContain("totalAmount");
+    expect(GRAPHQL_LIST_ESCROWS).not.toContain("contractType");
+    expect(GRAPHQL_GET_ESCROW).not.toContain("totalAmount");
+    expect(capturedBody).toContain('"type":"single-release"');
+    expect(capturedBody).not.toContain("contractType");
   });
 });

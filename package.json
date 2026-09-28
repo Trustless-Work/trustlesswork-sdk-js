@@ -1,6 +1,6 @@
 {
   "name": "@trustless-work/escrow-js",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Framework-agnostic JavaScript/TypeScript client for Trustless Work Core API v2 escrows.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

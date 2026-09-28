@@ -9,7 +9,7 @@ const ESCROW_CORE_FIELDS = `
   type
   engagementId
   status
-  totalAmount
+  amount
   balance
   asset {
     name
@@ -35,7 +35,7 @@ const ESCROW_FINANCIAL_FIELDS = `
     totalDeposited
     totalReleased
     platformFee
-    totalAmount
+    amount
     nextRelease {
       milestoneIndex
       amount
@@ -90,7 +90,7 @@ export const GRAPHQL_LIST_ESCROWS = /* GraphQL */ `
   query ListEscrows(
     $scope: EscrowScope
     $status: String
-    $contractType: String
+    $type: String
     $engagementId: String
     $contractIds: [String!]
     $participant: String
@@ -107,7 +107,7 @@ export const GRAPHQL_LIST_ESCROWS = /* GraphQL */ `
     escrows(
       scope: $scope
       status: $status
-      contractType: $contractType
+      type: $type
       engagementId: $engagementId
       contractIds: $contractIds
       participant: $participant

@@ -20,7 +20,9 @@ client.rest.listEscrows(params?: ListEscrowsParams): Promise<ListEscrowsResponse
 
 **Returns** `ListEscrowsResponse` = `KeysetPage<EscrowSummary>` → `{ data, hasMore, nextCursor }`.
 
-Filters: `scope`, `status`, `contractType`, `engagementId`, `contractIds`, `participant`, `role`, `platformId`, `subjectId`, `createdAfter`, `createdBefore`, `limit`, `cursor`, `sort`, `order`.
+Filters: `scope`, `status`, `type`, `engagementId`, `contractIds`, `participant`, `role`, `platformId`, `subjectId`, `createdAfter`, `createdBefore`, `limit`, `cursor`, `sort`, `order`.
+
+`type` is `"single-release"` or `"multi-release"`. Rows include `amount` (decimal string, or `null` until the first projection).
 
 ### Example
 

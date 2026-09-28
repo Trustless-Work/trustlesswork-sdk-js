@@ -36,7 +36,9 @@ const detail = await client.rest.getEscrow(contractId);
 
 ### Filters & pagination
 
-`ListEscrowsParams`: `scope`, `status`, `contractType`, `engagementId`, `contractIds`, `participant`, `role`, `platformId`, `subjectId`, `createdAfter`, `createdBefore`, `limit`, `cursor`, `sort`, `order`.
+`ListEscrowsParams`: `scope`, `status`, `type`, `engagementId`, `contractIds`, `participant`, `role`, `platformId`, `subjectId`, `createdAfter`, `createdBefore`, `limit`, `cursor`, `sort`, `order`.
+
+`type` is `"single-release"` or `"multi-release"` and matches the row's `type` field. Every row also exposes `amount` (decimal string, or `null` until the first on-chain state is projected).
 
 * Use `scope: "mine" | "all"` for segmentation (not per-escrow access grants).
 * List/events return a **keyset page**: `{ data, hasMore, nextCursor }`.
@@ -45,7 +47,7 @@ const detail = await client.rest.getEscrow(contractId);
 
 | Type | Notes |
 | --- | --- |
-| `EscrowSummary` | List/detail row: `contractId`, `type`, `status`, `balance`, `asset`, camelCased `snapshot` |
+| `EscrowSummary` | List/detail row: `contractId`, `type`, `amount`, `status`, `balance`, `asset`, camelCased `snapshot` |
 | `EscrowDetail` | `{ escrow, events, deposits }` |
 | `EscrowFinancial` | Batch financial: deposited / released / pending / `balance` |
 | `EscrowEvent` | Indexed event — no UUID event `id` |

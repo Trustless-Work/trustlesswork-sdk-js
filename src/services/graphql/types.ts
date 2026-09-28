@@ -55,7 +55,8 @@ export type GraphqlEscrowFinancial = {
   totalDeposited: string;
   totalReleased: string;
   platformFee: string | null;
-  totalAmount: string | null;
+  /** Total escrowed value (decimal string). Null until the first state is projected. */
+  amount: string | null;
   nextRelease: GraphqlNextRelease | null;
 };
 
@@ -65,7 +66,8 @@ export type GraphqlEscrow = {
   type: EscrowType | string | null;
   engagementId: string | null;
   status: EscrowStatus | string | null;
-  totalAmount: string | null;
+  /** Total escrowed value (decimal string). Null until the first state is projected. */
+  amount: string | null;
   balance: string;
   asset: EscrowAsset | null;
   lastLedgerSeq: string;
@@ -88,7 +90,8 @@ export type GraphqlEscrowPage = {
 export type GraphqlListEscrowsVariables = {
   scope?: GraphqlEscrowScope;
   status?: EscrowStatus | string;
-  contractType?: EscrowType | string;
+  /** `"single-release"` or `"multi-release"`. GraphQL argument `type`. */
+  type?: EscrowType | string;
   engagementId?: string;
   contractIds?: string[];
   participant?: string;

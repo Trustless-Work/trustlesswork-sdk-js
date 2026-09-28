@@ -43,7 +43,7 @@ const page = await client.graphql.listEscrows({
 GraphQL wire types (`GraphqlEscrow`, `GraphqlEscrowPage`, `GraphqlEscrowFinancial`, …) live on `@trustless-work/escrow-js` / `@trustless-work/escrow-js/graphql`.
 
 {% hint style="info" %}
-REST and GraphQL share the same Core identity model (`contractId`) and filter semantics (`scope`, `status`, `contractType`, …). Choose based on nesting needs, not different product surfaces.
+REST and GraphQL share the same Core identity model (`contractId`) and filter semantics (`scope`, `status`, `type`, …). Choose based on nesting needs, not different product surfaces.
 {% endhint %}
 
 See also [REST Reads](/escrow-js-sdk/rest-reads) and [Types](/escrow-js-sdk/types).
