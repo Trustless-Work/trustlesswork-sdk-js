@@ -52,6 +52,7 @@ export type {
   EscrowProblemExtensions,
   ApiErrorCode,
   GeneralApiErrorCode,
+  CctpApiErrorCode,
 } from "./types.error";
 export { ESCROW_ERROR_CODES, isEscrowErrorCode } from "./escrow-error-codes";
 export type { EscrowErrorCode } from "./escrow-error-codes";
@@ -70,6 +71,11 @@ export type { ListEscrowEventsResponse } from "./types.response";
 export type { GetEscrowMilestonesResponse } from "./types.response";
 export type { BatchEscrowMilestonesResponse } from "./types.response";
 export type { BatchEscrowFinancialResponse } from "./types.response";
+export type { SetCrossChainDestinationResponse } from "./types.response";
+export type { CrossChainDestination } from "./types.response";
+export type { GetCrossChainDestinationResponse } from "./types.response";
+export type { CctpFeeQuoteResponse } from "./types.response";
+export type { CctpAttestationResponse } from "./types.response";
 
 /**
  * Core types
@@ -109,6 +115,13 @@ export type { MultiReleaseWithdrawRemainingFundsPayload } from "./types.payload"
 export type { FundEscrowPayload } from "./types.payload";
 export type { SingleReleaseReleaseFundsPayload } from "./types.payload";
 export type { MultiReleaseReleaseFundsPayload } from "./types.payload";
+export type { CctpDestinationDomain } from "./types.payload";
+export type { SingleReleaseSetCrossChainDestinationPayload } from "./types.payload";
+export type { MultiReleaseSetCrossChainDestinationPayload } from "./types.payload";
+export type { SingleReleaseClearCrossChainDestinationPayload } from "./types.payload";
+export type { MultiReleaseClearCrossChainDestinationPayload } from "./types.payload";
+export type { SingleReleaseGetCrossChainDestinationParams } from "./types.payload";
+export type { MultiReleaseGetCrossChainDestinationParams } from "./types.payload";
 export type { ListEscrowsParams } from "./types.payload";
 export type { BatchContractIdsParams } from "./types.payload";
 export type { ListEscrowEventsParams } from "./types.payload";

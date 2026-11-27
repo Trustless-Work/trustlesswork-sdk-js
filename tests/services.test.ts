@@ -112,6 +112,122 @@ describe("EscrowRestService", () => {
   });
 });
 
+describe("EscrowRestService CCTP", () => {
+  function captureClient(body: unknown) {
+    const calls: { url: string; init?: RequestInit }[] = [];
+    const client = new TrustlessWorkClient({
+      baseURL: "https://api.example.com",
+      fetch: createMockFetch(async (url, init) => {
+        calls.push({ url, init });
+        return new Response(JSON.stringify(body), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        });
+      }),
+    });
+    return { client, calls };
+  }
+
+  it("sets the destination per escrow type and returns the fee", async () => {
+    const { client, calls } = captureClient({
+      unsignedXdr: "xdr",
+      txHash: "hash",
+      estimatedFeeUsdc: 0.0534,
+    });
+
+    const res = await client.rest.setCrossChainDestination(
+      {
+        contractId: "C1",
+        receiver: "G1",
+        destinationDomain: 6,
+        recipientAddress: "0xabc",
+      },
+      "single-release",
+    );
+    await client.rest.setCrossChainDestination(
+      {
+        contractId: "C1",
+        receiver: "G1",
+        milestoneIndex: 2,
+        destinationDomain: 5,
+        recipientAddress: "So1",
+      },
+      "multi-release",
+    );
+
+    expect(res.estimatedFeeUsdc).toBe(0.0534);
+    expect(calls[0].url).toBe(
+      "https://api.example.com/escrow/single-release/v2/cross-chain-destination",
+    );
+    expect(calls[0].init?.method).toBe("POST");
+    expect(calls[1].url).toBe(
+      "https://api.example.com/escrow/multi-release/v2/cross-chain-destination",
+    );
+    expect(JSON.parse(calls[1].init?.body as string)).toMatchObject({
+      milestoneIndex: 2,
+      destinationDomain: 5,
+    });
+  });
+
+  it("clears the destination", async () => {
+    const { client, calls } = captureClient({ unsignedXdr: "x", txHash: "h" });
+
+    await client.rest.clearCrossChainDestination(
+      { contractId: "C1", receiver: "G1", milestoneIndex: 0 },
+      "multi-release",
+    );
+
+    expect(calls[0].url).toBe(
+      "https://api.example.com/escrow/multi-release/v2/cross-chain-destination/clear",
+    );
+  });
+
+  it("reads the destination and returns null when unset", async () => {
+    const { client, calls } = captureClient(null);
+
+    const single = await client.rest.getCrossChainDestination(
+      { contractId: "C1" },
+      "single-release",
+    );
+    await client.rest.getCrossChainDestination(
+      { contractId: "C1", milestoneIndex: 3 },
+      "multi-release",
+    );
+
+    expect(single).toBeNull();
+    expect(calls[0].url).toBe(
+      "https://api.example.com/escrow/single-release/v2/cross-chain-destination/C1",
+    );
+    expect(calls[1].url).toBe(
+      "https://api.example.com/escrow/multi-release/v2/cross-chain-destination/C1/3",
+    );
+  });
+
+  it("rejects a multi-release read without milestoneIndex", async () => {
+    const { client, calls } = captureClient(null);
+
+    await expect(
+      client.rest.getCrossChainDestination(
+        { contractId: "C1" },
+        "multi-release",
+      ),
+    ).rejects.toThrow("milestoneIndex");
+    expect(calls).toHaveLength(0);
+  });
+
+  it("calls the fee-quote and attestation endpoints", async () => {
+    const { client, calls } = captureClient({ status: "pending" });
+
+    await client.rest.getCctpFeeQuote(6);
+    await client.rest.getCctpAttestation("ab".repeat(32));
+
+    expect(calls[0].url).toBe("https://api.example.com/cctp/fee-quote/6");
+    expect(calls[1].url).toBe(
+      `https://api.example.com/cctp/attestation/${"ab".repeat(32)}`,
+    );
+  });
+});
+
 describe("EscrowGraphqlService", () => {
   it("throws GraphqlRequestError when errors array is present", async () => {
     const client = new TrustlessWorkClient({
