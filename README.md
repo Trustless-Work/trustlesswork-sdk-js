@@ -189,6 +189,28 @@ const detail = await client.rest.getEscrow(contractId);
 
 `scope`, `status`, `type`, `engagementId`, `contractIds`, `participant`, `role`, `platformId`, `subjectId`, `createdAfter`, `createdBefore`, `limit`, `cursor`, `sort`, `order`.
 
+## CCTP cross-chain payout
+
+The receiver can get their share in USDC on another chain (Circle CCTP + Forwarding Service). Only escrows deployed from a CCTP-enabled factory support it; others return `409 CCTP_NOT_SUPPORTED_BY_ESCROW`. Multi-release works per milestone (`milestoneIndex`).
+
+| Method                       | Endpoint                                                  |
+| ---------------------------- | --------------------------------------------------------- |
+| `setCrossChainDestination`   | `POST /escrow/:type/v2/cross-chain-destination` (receiver signs) |
+| `clearCrossChainDestination` | `POST /escrow/:type/v2/cross-chain-destination/clear` (receiver signs) |
+| `getCrossChainDestination`   | `GET /escrow/:type/v2/cross-chain-destination/:contractId[/:milestoneIndex]` (`null` = Stellar payout) |
+| `getCctpFeeQuote`            | `GET /cctp/fee-quote/:destinationDomain`                  |
+| `getCctpAttestation`         | `GET /cctp/attestation/:burnTxHash`                       |
+
+```ts
+const { unsignedXdr, estimatedFeeUsdc } =
+  await client.rest.setCrossChainDestination(
+    { contractId, receiver, destinationDomain: 6, recipientAddress: "0x..." },
+    "single-release",
+  );
+```
+
+Domains: `0` Ethereum, `1` Avalanche, `2` OP, `3` Arbitrum, `5` Solana, `6` Base, `7` Polygon.
+
 `type` is `"single-release"` or `"multi-release"` (same value as the row's `type` field).
 
 - Use `scope: "mine" | "all"` for segmentation (not per-escrow access grants).
