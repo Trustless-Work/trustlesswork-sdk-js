@@ -36,7 +36,21 @@ export type GeneralApiErrorCode =
   | "INTERNAL_ERROR"
   | "HTTP_ERROR"
   | "STELLAR_SIMULATION_MISSING"
-  | "STELLAR_SIMULATION_FAILED";
+  | "STELLAR_SIMULATION_FAILED"
+  | CctpApiErrorCode;
+
+/**
+ * Codes emitted by Core's CCTP endpoints before reaching the contract.
+ */
+export type CctpApiErrorCode =
+  | "CCTP_NOT_SUPPORTED_BY_ESCROW"
+  | "CCTP_INVALID_DESTINATION_DOMAIN"
+  | "CCTP_INVALID_RECIPIENT"
+  | "CCTP_MAX_FEE_EXCEEDS_CAP"
+  | "CCTP_MILESTONE_NOT_FOUND"
+  | "CCTP_FORWARDING_FEE_UNAVAILABLE"
+  | "CCTP_IRIS_ERROR"
+  | "CCTP_IRIS_UNREACHABLE";
 
 export type ApiErrorCode =
   | EscrowErrorCode

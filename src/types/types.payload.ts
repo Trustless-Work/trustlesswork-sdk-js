@@ -202,6 +202,48 @@ export type MultiReleaseReleaseFundsPayload =
     milestoneIndexes: number[];
   };
 
+// ----------------- CCTP cross-chain destination -----------------
+
+/**
+ * CCTP destination domain: 0=Ethereum, 1=Avalanche, 2=OP, 3=Arbitrum,
+ * 5=Solana, 6=Base, 7=Polygon.
+ */
+export type CctpDestinationDomain = 0 | 1 | 2 | 3 | 5 | 6 | 7;
+
+export type SingleReleaseSetCrossChainDestinationPayload = {
+  contractId: string;
+  /** Escrow receiver. Only they can sign. */
+  receiver: string;
+  destinationDomain: CctpDestinationDomain;
+  /** EVM address (0x...) or, for Solana, a base58 wallet address. */
+  recipientAddress: string;
+};
+
+export type MultiReleaseSetCrossChainDestinationPayload =
+  SingleReleaseSetCrossChainDestinationPayload & {
+    milestoneIndex: number;
+  };
+
+export type SingleReleaseClearCrossChainDestinationPayload = {
+  contractId: string;
+  /** Escrow receiver. Only they can sign. */
+  receiver: string;
+};
+
+export type MultiReleaseClearCrossChainDestinationPayload =
+  SingleReleaseClearCrossChainDestinationPayload & {
+    milestoneIndex: number;
+  };
+
+export type SingleReleaseGetCrossChainDestinationParams = {
+  contractId: string;
+};
+
+export type MultiReleaseGetCrossChainDestinationParams =
+  SingleReleaseGetCrossChainDestinationParams & {
+    milestoneIndex: number;
+  };
+
 // ----------------- Reads: list / batch params -----------------
 
 /**
